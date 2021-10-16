@@ -23,7 +23,7 @@ jobs:
       run: |
         npm install
         npm run build
-        sh deploy.dev.sh
+        sh deploy.prod.sh
       env:
         REACT_APP_API_URL: https://api.torontomiracle.org
         AWS_ACCESS_KEY_ID: AKIATNKCATQGZAJ533O6
