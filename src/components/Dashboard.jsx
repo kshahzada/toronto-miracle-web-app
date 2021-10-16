@@ -42,12 +42,10 @@ function Dashboard() {
     // TODO: send actual captain ID
     axios.get(`${REACT_APP_API_URL}/v1/resources/captains/123/volunteers/`)
       .then((res) => {
-        console.log(res);
         const volunteers = res.data.message;
 
         // can switch this data formatting to the back end
         volunteers.forEach((record) => {
-          console.log(record);
           volunteerListAcc = [
             ...volunteerListAcc,
             createVolData(
@@ -165,9 +163,9 @@ function Dashboard() {
             <TabPanel value="1">
               <CardList contactListRows={volunteerListRows} />
             </TabPanel>
-            <TabPanel value="2">
+            {/* <TabPanel value="2">
               <CardList contactListRows={donorListRows} isDonorList />
-            </TabPanel>
+            </TabPanel> */}
           </TabContext>
         </Grid>
 
