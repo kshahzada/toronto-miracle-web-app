@@ -1,0 +1,31 @@
+name: Test & Deploy Develop Branch
+
+on:
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump GitHub context 
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: Install Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+    - name: Checkout Repo
+      uses: actions/checkout@v1
+    - name: Deploy Application
+      run: |
+        npm install
+        npm run build
+        sh deploy.dev.sh
+      env:
+        # REACT_APP_API_URL: https://dev-api.doggo.cafe
+        AWS_ACCESS_KEY_ID: AKIATNKCATQGZORJEM6N
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+        AWS_DEFAULT_REGION: us-east-1
