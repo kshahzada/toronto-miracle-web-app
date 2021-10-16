@@ -1,4 +1,4 @@
-name: Test & Deploy Master Branch
+name: Test & Deploy Main Branch
 
 on:
   push:
