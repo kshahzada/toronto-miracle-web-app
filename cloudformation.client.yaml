@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  ClientBucketName:
+    Type: String
+    AllowedValues: 
+      - 'app.torontomiracle.org'
+      - 'dev-app.torontomiracle.org'
+  ClientDomainName:
+    Type: String
+    AllowedValues: 
+      - 'app.torontomiracle.org'
+      - 'dev-app.torontomiracle.org'
+  APIDomainName:
+    Type: String
+    AllowedValues: 
+      - 'api.torontomiracle.org'
+      - 'dev-api.torontomiracle.org'
+  SSLCertArn:
+    Type: String
+    Default: 'arn:aws:acm:us-east-1:234751040525:certificate/c212c14d-45ba-4750-85d8-a9c5019455f5'
+
+
+Resources:
+  Client:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: cloudformation.yaml
+      Parameters:
+        BucketName: !Ref ClientBucketName
+        DomainName: !Ref ClientDomainName
+        SSLCertArn: !Ref SSLCertArn
+  # Backend1:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: backend/cloudformation.yaml
+  #     Parameters:
+  #       DomainName: !Ref APIDomainName
+  #       SSLCertArn: !Ref SSLCertArn
+
+Outputs:
+  DistibutionURL:
+    Description : "Distribution URL for accessing the client site (or to configure DNS CNAMEs)"
+    Value: !GetAtt Client.Outputs.DistibutionURL
+  SiteBucketName:
+    Description : "Client Site Bucket Name"
+    Value: !GetAtt Client.Outputs.SiteBucketName
+
+  # InternalJobs:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: internal/jobs/template.yaml
+  #     Parameters:
+  #       Stage: !Ref Stage
+  # PublicAPI:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: public/api/template.yaml
+  #     Parameters:
+  #       Stage: !Ref Stage

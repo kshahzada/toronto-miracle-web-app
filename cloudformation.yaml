@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  BucketName:
+    Type: String
+  DomainName:
+    Type: String
+  SSLCertArn:
+    Type: String
+
+Resources:
+  TorontoMiracleDistribution:
+    Type: 'AWS::CloudFront::Distribution'
+    DependsOn: TorontoMiracleDistributionOriginAccessIdentity
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - !Ref DomainName
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+        Origins:
+          - DomainName: !GetAtt TorontoMiracleBucket.DomainName
+            Id: Bucket
+            S3OriginConfig:
+              OriginAccessIdentity: !Join ['' , ['origin-access-identity/cloudfront/', !Ref TorontoMiracleDistributionOriginAccessIdentity]]
+        Enabled: true
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          Compress: true
+          AllowedMethods:
+            - GET
+            - HEAD
+          TargetOriginId: Bucket
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+        ViewerCertificate:
+          AcmCertificateArn: !Ref SSLCertArn
+          MinimumProtocolVersion: TLSv1.2_2018
+          SslSupportMethod: sni-only
+  TorontoMiracleDistributionOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: 'TorontoMiracleDistributionOriginAccessIdentity'
+  TorontoMiracleBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref BucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  TorontoMiracleBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DependsOn: TorontoMiracleDistributionOriginAccessIdentity
+    Properties:
+      Bucket: !Ref TorontoMiracleBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource: !Join
+              - ""
+              - - !GetAtt TorontoMiracleBucket.Arn
+                - "/*"
+            Principal:
+              CanonicalUser: !GetAtt TorontoMiracleDistributionOriginAccessIdentity.S3CanonicalUserId
+Outputs:
+  DistibutionURL:
+    Description : "Distribution URL for accessing client site (or to configure DNS CNAMEs)"
+    Value: !GetAtt TorontoMiracleDistribution.DomainName
+  SiteBucketName:
+    Description : "Client Site Bucket Name"
+    Value: !Ref TorontoMiracleBucket 
