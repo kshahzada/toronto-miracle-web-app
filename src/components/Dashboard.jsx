@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import Grid from '@mui/material/Grid';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 
-import tmLogo from "../assets/torontomiracle_2021_logo_LOGO MAIN.png";
-import CardNumber from "./CardNumber";
-import CardList from "./CardList";
+import tmLogo from '../assets/torontomiracle_2021_logo_LOGO MAIN.png';
+// import CardNumber from "./CardNumber";
+import CardList from './CardList';
 
 const { REACT_APP_API_URL } = process.env;
 
 function createVolData(firstName, lastName, email, phoneNumber) {
-  return { name: firstName.concat(" ", lastName), email, phoneNumber };
+  return { name: firstName.concat(' ', lastName), email, phoneNumber };
 }
 
-function createDonorData(name, email, address, notes) {
-  return { name, email, address, notes };
-}
+// function createDonorData(name, email, address, notes) {
+//   return { name, email, address, notes };
+// }
 
 function Dashboard() {
   const [volunteerListRows, setVolunteerListRows] = useState([]);
-  const [donorListRows, setDonorListRows] = useState([]);
+  // const [donorListRows, setDonorListRows] = useState([]);
 
-  const [selectedTab, setSelectedTab] = React.useState("1");
+  const [selectedTab, setSelectedTab] = React.useState('1');
 
   const handleTabSelectionChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -39,28 +39,28 @@ function Dashboard() {
   const fetchVolunteerList = () => {
     let volunteerListAcc = [];
 
-    // TODO: send actual captain ID 
+    // TODO: send actual captain ID
     axios.get(`${REACT_APP_API_URL}/v1/resources/captains/123/volunteers/`)
-      .then(res => {
-        console.log(res)
+      .then((res) => {
+        console.log(res);
         const volunteers = res.data.message;
 
         // can switch this data formatting to the back end
-        volunteers.forEach(function (record) {
-          console.log(record)
+        volunteers.forEach((record) => {
+          console.log(record);
           volunteerListAcc = [
             ...volunteerListAcc,
             createVolData(
-              record["First Name"],
-              record["Last Name"],
-              record["Email"],
-              record["Phone Number"]
+              record['First Name'],
+              record['Last Name'],
+              record.Email,
+              record['Phone Number'],
             ),
           ];
         });
 
         setVolunteerListRows(volunteerListAcc);
-      })
+      });
   };
 
   // const fetchDonorList = (base) => {
@@ -96,7 +96,7 @@ function Dashboard() {
   //       }
   //     );
   // };
-  
+
   useEffect(() => {
     fetchVolunteerList();
     // fetchDonorList();
@@ -105,19 +105,21 @@ function Dashboard() {
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100%",
+        height: '100vh',
+        width: '100%',
         top: 0,
         overflow: 'scroll',
         position: 'fixed',
-        bgColor: "#0093E9",
-        backgroundImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
+        bgColor: '#0093E9',
+        backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
       }}
     >
       <AppBar position="static" color="secondary">
         <Toolbar>
           <Avatar
-            sx={{ bgcolor: "#199ed9", width: 100, height: 100, margin: 2 }}
+            sx={{
+              bgcolor: '#199ed9', width: 100, height: 100, margin: 2,
+            }}
             alt="Toronto Miracle logo"
             src={tmLogo}
             variant="square"
@@ -127,7 +129,7 @@ function Dashboard() {
           <Typography
             variant="h4"
             component="div"
-            sx={{ flexGrow: 1, textAlign: "center" }}
+            sx={{ flexGrow: 1, textAlign: 'center' }}
           >
             Toronto Miracle Captain Site
           </Typography>
@@ -140,7 +142,7 @@ function Dashboard() {
           <Typography
             sx={{
               fontSize: 25,
-              fontWeight: "bolder",
+              fontWeight: 'bolder',
             }}
           >
             Bathurst Quay Neighborhood
@@ -149,7 +151,7 @@ function Dashboard() {
 
         <Grid item xs={12}>
           <TabContext value={selectedTab}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList
                 onChange={handleTabSelectionChange}
                 aria-label="volunteer or donor tab"

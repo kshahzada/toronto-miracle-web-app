@@ -1,18 +1,18 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 export default function Login() {
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState('');
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  const [password, setPassword] = React.useState("");
+  const [password, setPassword] = React.useState('');
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
@@ -21,12 +21,12 @@ export default function Login() {
     <Box
       component="form"
       sx={{
-        height: "100vh",
-        bgColor: "#0093E9",
-        backgroundImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        height: '100vh',
+        bgColor: '#0093E9',
+        backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
       spacing={2}
       noValidate
@@ -35,18 +35,18 @@ export default function Login() {
       <Card outlined>
         <CardContent
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-around",
-            height: "30vh",
-            background: "#000000",
-            padding: "3em",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            height: '30vh',
+            background: '#000000',
+            padding: '3em',
           }}
         >
           <Typography
             variant="h4"
-            sx={{ textAlign: "center", marginBottom: 3, color: "#ffffff" }}
+            sx={{ textAlign: 'center', marginBottom: 3, color: '#ffffff' }}
           >
             Login
           </Typography>
