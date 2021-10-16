@@ -25,7 +25,7 @@ jobs:
         npm run build
         sh deploy.dev.sh
       env:
-        # REACT_APP_API_URL: https://dev-api.doggo.cafe
+        REACT_APP_API_URL: https://api.torontomiracle.org
         AWS_ACCESS_KEY_ID: AKIATNKCATQGZORJEM6N
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
         AWS_DEFAULT_REGION: us-east-1

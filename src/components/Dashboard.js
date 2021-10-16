@@ -16,7 +16,7 @@ import tmLogo from "../assets/torontomiracle_2021_logo_LOGO MAIN.png";
 import CardNumber from "./CardNumber";
 import CardList from "./CardList";
 
-const BACKEND_DOMAIN = "http://localhost:5000"
+const { REACT_APP_API_URL } = process.env;
 
 function createVolData(firstName, lastName, email, phoneNumber) {
   return { name: firstName.concat(" ", lastName), email, phoneNumber };
@@ -40,7 +40,7 @@ function Dashboard() {
     let volunteerListAcc = [];
 
     // TODO: send actual captain ID 
-    axios.get(`${BACKEND_DOMAIN}/v1/resources/captains/123/volunteers/`)
+    axios.get(`${REACT_APP_API_URL}/v1/resources/captains/123/volunteers/`)
       .then(res => {
         console.log(res)
         const volunteers = res.data.message;
