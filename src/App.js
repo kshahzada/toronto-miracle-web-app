@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#199ed9",
+    },
+    secondary: {
+      main: "#000000",
+    },
+    info: {
+      main: "#ffffff",
+    },
+    text: {
+      primary: "#ffffff",
+      secondary: "#000000",
+    },
+  },
+  typography: {
+    fontFamily: ["Spartan", "sans-serif"].join(","),
+  },
+});
 
 function App() {
+  const [token, setToken] = useState("123");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      {!token ? (
+        <Login setToken={setToken} />
+      ) : (
+        <BrowserRouter>
+          <Switch>
+            <Route path="/dashboard">
+              <Dashboard />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      )}
+    </ThemeProvider>
   );
 }
 
