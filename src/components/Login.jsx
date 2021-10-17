@@ -5,16 +5,26 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { login } from '../services/login';
 
-export default function Login() {
+export default function Login({ setToken }) {
   const [email, setEmail] = React.useState('');
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  const [password, setPassword] = React.useState('');
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+  const [phoneNumber, setPhoneNumber] = React.useState('');
+  const handlePhoneNumberChange = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const token = await login({
+      email,
+      phoneNumber,
+    });
+    setToken(token);
   };
 
   return (
@@ -32,14 +42,14 @@ export default function Login() {
       noValidate
       autoComplete="off"
     >
-      <Card outlined>
+      <Card>
         <CardContent
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-around',
-            height: '30vh',
+            height: '20rem',
             background: '#000000',
             padding: '3em',
           }}
@@ -61,18 +71,16 @@ export default function Login() {
             focused
           />
           <TextField
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-            value={password}
+            id="outlined-phoneNumber-input"
+            label="Phone Number"
+            value={phoneNumber}
             variant="outlined"
-            onChange={handlePasswordChange}
-            autoComplete="current-password"
+            onChange={handlePhoneNumberChange}
             color="info"
             focused
           />
 
-          <Button variant="contained" color="info">
+          <Button variant="contained" color="info" onClick={handleLogin}>
             Login
           </Button>
         </CardContent>

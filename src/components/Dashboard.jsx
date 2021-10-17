@@ -26,7 +26,7 @@ function createVolData(firstName, lastName, email, phoneNumber) {
 //   return { name, email, address, notes };
 // }
 
-function Dashboard() {
+function Dashboard({ setToken }) {
   const [volunteerListRows, setVolunteerListRows] = useState([]);
   // const [donorListRows, setDonorListRows] = useState([]);
 
@@ -40,7 +40,7 @@ function Dashboard() {
     let volunteerListAcc = [];
 
     // TODO: send actual captain ID
-    axios.get(`${REACT_APP_API_URL}/v1/resources/captains/123/volunteers/`)
+    axios.get(new URL(`${REACT_APP_API_URL}/v1/resources/captains/123/volunteers/`))
       .then((res) => {
         const volunteers = res.data.message;
 
@@ -131,7 +131,7 @@ function Dashboard() {
           >
             Toronto Miracle Captain Site
           </Typography>
-          <Button color="inherit">Logout</Button>
+          <Button color="inherit" onClick={() => setToken('')}>Logout</Button>
         </Toolbar>
       </AppBar>
 

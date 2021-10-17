@@ -26,7 +26,7 @@ const theme = createTheme({
 });
 
 function App() {
-  const [token, setToken] = useState('123');
+  const [token, setToken] = useState('');
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,7 +36,7 @@ function App() {
         <BrowserRouter>
           <Switch>
             <Route path="/">
-              <Dashboard />
+              <Dashboard setToken={setToken} />
             </Route>
           </Switch>
         </BrowserRouter>
