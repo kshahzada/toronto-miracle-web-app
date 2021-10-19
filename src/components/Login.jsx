@@ -56,7 +56,7 @@ export default function Login({ setToken, setUser }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-around',
-            height: '30vh',
+            height: '20rem',
             background: '#000000',
             padding: '3em',
           }}

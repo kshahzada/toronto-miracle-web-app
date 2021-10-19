@@ -20,7 +20,7 @@ const HeaderTableCell = styled(TableCell)(() => ({
 
 function CardList({ contactListRows, isDonorList }) {
   const [page, setPage] = React.useState(0);
-  const rowsPerPage = 10;
+  const ROWS_PER_PAGE = 10;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -51,7 +51,7 @@ function CardList({ contactListRows, isDonorList }) {
 
             <TableBody>
               {contactListRows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((row) => (
                   <TableRow
                     key={row.email}
@@ -96,10 +96,10 @@ function CardList({ contactListRows, isDonorList }) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[rowsPerPage]}
+          rowsPerPageOptions={[ROWS_PER_PAGE]}
           component="div"
           count={contactListRows.length}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={ROWS_PER_PAGE}
           page={page}
           onPageChange={handleChangePage}
         />
