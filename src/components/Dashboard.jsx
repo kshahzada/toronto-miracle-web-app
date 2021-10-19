@@ -1,32 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import AppBar from '@mui/material/AppBar';
+import React, { useState, useEffect, useContext } from 'react';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-import tmLogo from '../assets/torontomiracle_2021_logo_LOGO MAIN.png';
-// import CardNumber from "./CardNumber";
+import Header from './Header';
 import CardList from './CardList';
+import { getVolunteers } from '../api/apiMethods';
+import { UserContext } from '../contexts/UserContext';
 
-const { REACT_APP_API_URL } = process.env;
+function Dashboard() {
+  const user = useContext(UserContext);
 
-function createVolData(firstName, lastName, email, phoneNumber) {
-  return { name: firstName.concat(' ', lastName), email, phoneNumber };
-}
-
-// function createDonorData(name, email, address, notes) {
-//   return { name, email, address, notes };
-// }
-
-function Dashboard({ token, user }) {
   const [volunteerListRows, setVolunteerListRows] = useState([]);
   // const [donorListRows, setDonorListRows] = useState([]);
 
@@ -36,68 +24,12 @@ function Dashboard({ token, user }) {
     setSelectedTab(newValue);
   };
 
-  const fetchVolunteerList = () => {
-    let volunteerListAcc = [];
-
-    axios.get(new URL(`${REACT_APP_API_URL}/v1/neighbourhoods/${token}/volunteers/`), { withCredentials: true })
-      .then((res) => {
-        const volunteers = res.data.message;
-
-        // can switch this data formatting to the back end
-        volunteers.forEach((record) => {
-          volunteerListAcc = [
-            ...volunteerListAcc,
-            createVolData(
-              record['First Name'],
-              record['Last Name'],
-              record.Email,
-              record['Phone Number'],
-            ),
-          ];
-        });
-
-        setVolunteerListRows(volunteerListAcc);
-      });
-  };
-
-  // const fetchDonorList = (base) => {
-  //   let donorListAcc = [];
-
-  //   // Get volunteers
-  //   base("Contacts")
-  //     .select({
-  //       filterByFormula: "isDonor",
-  //     })
-  //     .eachPage(
-  //       function (records, fetchNextPage) {
-  //         records.forEach(function (record) {
-  //           donorListAcc = [
-  //             ...donorListAcc,
-  //             createDonorData(
-  //               record.get("First Name"),
-  //               record.get("Email"),
-  //               record.get("Address"),
-  //               record.get("Notes")
-  //             ),
-  //           ];
-  //         });
-
-  //         fetchNextPage();
-  //       },
-  //       function done(err) {
-  //         if (err) {
-  //           console.error(err);
-  //           return;
-  //         }
-  //         setDonorListRows(donorListAcc);
-  //       }
-  //     );
-  // };
-
-  useEffect(() => {
-    fetchVolunteerList();
-    // fetchDonorList();
-  }, []);
+  useEffect(async () => {
+    if (user) {
+      const volunteers = await getVolunteers(user.neighbourhoods[0]);
+      setVolunteerListRows(volunteers);
+    }
+  }, [user]);
 
   return (
     <Box
@@ -111,29 +43,7 @@ function Dashboard({ token, user }) {
         backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
       }}
     >
-      <AppBar position="static" color="secondary">
-        <Toolbar>
-          <Avatar
-            sx={{
-              bgcolor: '#199ed9', width: 100, height: 100, margin: 2,
-            }}
-            alt="Toronto Miracle logo"
-            src={tmLogo}
-            variant="square"
-          >
-            TM
-          </Avatar>
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{ flexGrow: 1, textAlign: 'center' }}
-          >
-            Toronto Miracle Captain Site
-          </Typography>
-          {/* <Button color="inherit" onClick={() => setToken('')}>Logout</Button> */}
-        </Toolbar>
-      </AppBar>
-
+      <Header />
       <Grid container spacing={2} justifyContent="center" padding={3}>
         <Grid item xs={12}>
           <Typography
@@ -165,40 +75,11 @@ function Dashboard({ token, user }) {
             {/* <TabPanel value="2">
               <CardList contactListRows={donorListRows} isDonorList />
             </TabPanel> */}
+            {/* <TabPanel value="3">
+              <Stats volunteerListRows={volunteerListRows} donorListRows={donorListRows} />
+            </TabPanel> */}
           </TabContext>
         </Grid>
-
-        {/* <Grid item xs={3}>
-          <Grid container direction="column" alignItems="center" spacing={2}>
-            <Grid item xs={3}>
-              <CardNumber
-                metricNumber={volunteerListRows.length}
-                metricDescription="Number of Volunteers"
-              />
-            </Grid>
-
-            <Grid item xs={3}>
-              <CardNumber
-                metricNumber={donorListRows.length}
-                metricDescription="Number of Donors"
-              />
-            </Grid>
-
-            <Grid item xs={3}>
-              <CardNumber
-                metricNumber={3}
-                metricDescription="Number of Larger Food Drives"
-              />
-            </Grid>
-
-            <Grid item xs={3}>
-              <CardNumber
-                metricNumber={12}
-                metricDescription="Number of Volunteer Vehicles"
-              />
-            </Grid>
-          </Grid>
-        </Grid>  */}
       </Grid>
     </Box>
   );
