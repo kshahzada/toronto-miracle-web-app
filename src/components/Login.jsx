@@ -5,16 +5,33 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { login } from '../services/login';
 
-export default function Login() {
+export default function Login({ setToken, setUser }) {
   const [email, setEmail] = React.useState('');
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  const [password, setPassword] = React.useState('');
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+  const [phoneNumber, setPhoneNumber] = React.useState('');
+  const handlePhoneNumberChange = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+
+  const [error, setError] = React.useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError(false);
+    const loggedInUser = await login({
+      email,
+      phoneNumber,
+    },
+    () => setError(true));
+    if (loggedInUser) {
+      setToken(loggedInUser.neighbourhoods[0]);
+      setUser(loggedInUser);
+    }
   };
 
   return (
@@ -32,7 +49,7 @@ export default function Login() {
       noValidate
       autoComplete="off"
     >
-      <Card outlined>
+      <Card>
         <CardContent
           sx={{
             display: 'flex',
@@ -61,18 +78,25 @@ export default function Login() {
             focused
           />
           <TextField
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-            value={password}
+            id="outlined-phoneNumber-input"
+            label="Phone Number"
+            value={phoneNumber}
             variant="outlined"
-            onChange={handlePasswordChange}
-            autoComplete="current-password"
+            onChange={handlePhoneNumberChange}
             color="info"
             focused
           />
 
-          <Button variant="contained" color="info">
+          {error && (
+          <Typography
+            variant="body"
+            sx={{ textAlign: 'center', color: 'red' }}
+          >
+            Invalid Email and/or Phone Number
+          </Typography>
+          )}
+
+          <Button variant="contained" color="info" onClick={handleLogin}>
             Login
           </Button>
         </CardContent>
