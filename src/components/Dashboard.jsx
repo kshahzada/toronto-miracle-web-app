@@ -39,7 +39,7 @@ function Dashboard({ token, user }) {
   const fetchVolunteerList = () => {
     let volunteerListAcc = [];
 
-    axios.get(new URL(`${REACT_APP_API_URL}/v1/neighbourhoods/${token}/volunteers/`))
+    axios.get(new URL(`${REACT_APP_API_URL}/v1/neighbourhoods/${token}/volunteers/`), { withCredentials: true })
       .then((res) => {
         const volunteers = res.data.message;
 

@@ -1,18 +1,14 @@
+import axios from 'axios';
+
 const { REACT_APP_API_URL } = process.env;
 
 export async function getLoggedIn() {
-  return fetch(new URL(`${REACT_APP_API_URL}/v1/auth/me`), {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      credentials: 'same-origin',
-    },
-  })
+  return axios.get(new URL(`${REACT_APP_API_URL}/v1/auth/me`), { withCredentials: true })
     .then((response) => {
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('No logged in user');
       }
-      return response.json();
+      return response.data;
     })
     .then((user) => user)
     .catch(() => {});

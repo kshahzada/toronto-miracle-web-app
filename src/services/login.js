@@ -1,19 +1,14 @@
+import axios from 'axios';
+
 const { REACT_APP_API_URL } = process.env;
 
 export async function login(credentials, setError) {
-  return fetch(new URL(`${REACT_APP_API_URL}/v1/auth/authenticate`), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      credentials: 'same-origin',
-    },
-    body: JSON.stringify(credentials),
-  })
+  return axios.post(new URL(`${REACT_APP_API_URL}/v1/auth/authenticate`), credentials, { withCredentials: true })
     .then((response) => {
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('Login unsuccessful');
       }
-      return response.json();
+      return response.data;
     })
     .then((user) => user)
     .catch(() => setError());

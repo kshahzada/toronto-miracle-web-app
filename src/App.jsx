@@ -30,13 +30,12 @@ function App() {
   const [token, setToken] = useState('');
   const [user, setUser] = useState({});
 
-  useEffect(() => {
-    getLoggedIn().then((loggedInUser) => {
-      if (loggedInUser) {
-        setToken(loggedInUser.neighborhoods[0]);
-        setUser(loggedInUser);
-      }
-    });
+  useEffect(async () => {
+    const loggedInUser = await getLoggedIn();
+    if (loggedInUser && 'neighbourhoods' in loggedInUser) {
+      setToken(loggedInUser.neighbourhoods[0]);
+      setUser(loggedInUser);
+    }
   }, []);
 
   return (

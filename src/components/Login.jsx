@@ -28,7 +28,7 @@ export default function Login({ setToken, setUser }) {
       phoneNumber,
     },
     () => setError(true));
-    if (loggedInUser) {
+    if (loggedInUser && 'neighbourhoods' in loggedInUser) {
       setToken(loggedInUser.neighbourhoods[0]);
       setUser(loggedInUser);
     }
