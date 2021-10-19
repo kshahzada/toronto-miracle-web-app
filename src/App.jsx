@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
+import { getLoggedIn } from './services/getLoggedIn';
 
 const theme = createTheme({
   palette: {
@@ -27,16 +28,25 @@ const theme = createTheme({
 
 function App() {
   const [token, setToken] = useState('');
+  const [user, setUser] = useState({});
+
+  useEffect(async () => {
+    const loggedInUser = await getLoggedIn();
+    if (loggedInUser && 'neighbourhoods' in loggedInUser) {
+      setToken(loggedInUser.neighbourhoods[0]);
+      setUser(loggedInUser);
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
       {!token ? (
-        <Login setToken={setToken} />
+        <Login setToken={setToken} setUser={setUser} />
       ) : (
         <BrowserRouter>
           <Switch>
             <Route path="/">
-              <Dashboard setToken={setToken} />
+              <Dashboard token={token} user={user} />
             </Route>
           </Switch>
         </BrowserRouter>

@@ -1,13 +1,15 @@
+import axios from 'axios';
+
 const { REACT_APP_API_URL } = process.env;
 
-export async function login(credentials) {
-  return fetch(new URL(`${REACT_APP_API_URL}/login`), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
-  })
-    // .then(data => data.json())
-    .then('fake_token');
+export async function login(credentials, setError) {
+  return axios.post(new URL(`${REACT_APP_API_URL}/v1/auth/authenticate`), credentials, { withCredentials: true })
+    .then((response) => {
+      if (response.status !== 200) {
+        throw new Error('Login unsuccessful');
+      }
+      return response.data;
+    })
+    .then((user) => user)
+    .catch(() => setError());
 }

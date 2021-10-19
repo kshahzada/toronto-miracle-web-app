@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import Tab from '@mui/material/Tab';
@@ -26,7 +26,7 @@ function createVolData(firstName, lastName, email, phoneNumber) {
 //   return { name, email, address, notes };
 // }
 
-function Dashboard({ setToken }) {
+function Dashboard({ token, user }) {
   const [volunteerListRows, setVolunteerListRows] = useState([]);
   // const [donorListRows, setDonorListRows] = useState([]);
 
@@ -39,8 +39,7 @@ function Dashboard({ setToken }) {
   const fetchVolunteerList = () => {
     let volunteerListAcc = [];
 
-    // TODO: send actual captain ID
-    axios.get(new URL(`${REACT_APP_API_URL}/v1/resources/captains/123/volunteers/`))
+    axios.get(new URL(`${REACT_APP_API_URL}/v1/neighbourhoods/${token}/volunteers/`), { withCredentials: true })
       .then((res) => {
         const volunteers = res.data.message;
 
@@ -131,7 +130,7 @@ function Dashboard({ setToken }) {
           >
             Toronto Miracle Captain Site
           </Typography>
-          <Button color="inherit" onClick={() => setToken('')}>Logout</Button>
+          {/* <Button color="inherit" onClick={() => setToken('')}>Logout</Button> */}
         </Toolbar>
       </AppBar>
 
@@ -143,7 +142,7 @@ function Dashboard({ setToken }) {
               fontWeight: 'bolder',
             }}
           >
-            Bathurst Quay Neighborhood
+            {`${user.firstName} ${user.lastName}'s Captain Site`}
           </Typography>
         </Grid>
 
