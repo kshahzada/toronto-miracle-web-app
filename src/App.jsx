@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
-import { getLoggedIn } from './services/getLoggedIn';
+import { getLoggedIn } from './api/apiMethods';
+import { UserContext } from './contexts/UserContext';
 
 const theme = createTheme({
   palette: {
@@ -27,30 +28,30 @@ const theme = createTheme({
 });
 
 function App() {
-  const [token, setToken] = useState('');
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   useEffect(async () => {
     const loggedInUser = await getLoggedIn();
     if (loggedInUser && 'neighbourhoods' in loggedInUser) {
-      setToken(loggedInUser.neighbourhoods[0]);
       setUser(loggedInUser);
     }
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
-      {!token ? (
-        <Login setToken={setToken} setUser={setUser} />
-      ) : (
-        <BrowserRouter>
-          <Switch>
-            <Route path="/">
-              <Dashboard token={token} user={user} />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      )}
+      <UserContext.Provider value={user}>
+        {!user ? (
+          <Login setUser={setUser} />
+        ) : (
+          <BrowserRouter>
+            <Switch>
+              <Route path="/">
+                <Dashboard />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        )}
+      </UserContext.Provider>
     </ThemeProvider>
   );
 }

@@ -5,9 +5,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { login } from '../services/login';
+import { login } from '../api/apiMethods';
 
-export default function Login({ setToken, setUser }) {
+export default function Login({ setUser }) {
   const [email, setEmail] = React.useState('');
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -18,18 +18,17 @@ export default function Login({ setToken, setUser }) {
     setPhoneNumber(event.target.value);
   };
 
-  const [error, setError] = React.useState(false);
+  const [error, setError] = React.useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(false);
+    setError('');
     const loggedInUser = await login({
       email,
       phoneNumber,
     },
-    () => setError(true));
+    setError);
     if (loggedInUser && 'neighbourhoods' in loggedInUser) {
-      setToken(loggedInUser.neighbourhoods[0]);
       setUser(loggedInUser);
     }
   };
@@ -87,14 +86,12 @@ export default function Login({ setToken, setUser }) {
             focused
           />
 
-          {error && (
           <Typography
             variant="body"
             sx={{ textAlign: 'center', color: 'red' }}
           >
-            Invalid Email and/or Phone Number
+            {error}
           </Typography>
-          )}
 
           <Button variant="contained" color="info" onClick={handleLogin}>
             Login
