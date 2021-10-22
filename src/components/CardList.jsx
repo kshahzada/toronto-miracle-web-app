@@ -10,6 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
 
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,7 +45,11 @@ function CardList({ contactListRows, isDonorList }) {
                     <HeaderTableCell align="right">Notes</HeaderTableCell>
                   </>
                 ) : (
-                  <HeaderTableCell align="right">Phone Number</HeaderTableCell>
+                  <>
+                    <HeaderTableCell align="right">Phone Number</HeaderTableCell>
+                    <HeaderTableCell align="right">Vehicle Access</HeaderTableCell>
+                    <HeaderTableCell align="right">Waiver</HeaderTableCell>
+                  </>
                 )}
               </TableRow>
             </TableHead>
@@ -86,9 +91,33 @@ function CardList({ contactListRows, isDonorList }) {
                         </TableCell>
                       </>
                     ) : (
-                      <TableCell sx={{ color: 'text.secondary' }} align="right">
-                        {row.phoneNumber}
-                      </TableCell>
+                      <>
+                        <TableCell sx={{ color: 'text.secondary' }} align="right">
+                          {row.phoneNumber}
+                        </TableCell>
+                        <TableCell align="right">
+                          <Checkbox
+                            sx={{
+                              '&.Mui-disabled': {
+                                color: '#199ed9',
+                              },
+                            }}
+                            disabled
+                            checked={row.vehicleAccess}
+                          />
+                        </TableCell>
+                        <TableCell align="right">
+                          <Checkbox
+                            sx={{
+                              '&.Mui-disabled': {
+                                color: '#199ed9',
+                              },
+                            }}
+                            disabled
+                            checked={row.waiver}
+                          />
+                        </TableCell>
+                      </>
                     )}
                   </TableRow>
                 ))}

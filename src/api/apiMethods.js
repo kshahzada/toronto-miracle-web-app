@@ -34,6 +34,8 @@ export async function getVolunteers(token) {
             record['Last Name'],
             record.Email,
             record['Phone Number'],
+            record['Vehicle Access'],
+            record.Waiver,
           ),
         ];
       });
