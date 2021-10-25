@@ -8,7 +8,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
 import Header from './Header';
-import CardList from './CardList';
+import VolunteerList from './VolunteerList';
 import { getVolunteers } from '../api/apiMethods';
 import { UserContext } from '../contexts/UserContext';
 
@@ -70,7 +70,7 @@ function Dashboard() {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <CardList contactListRows={volunteerListRows} />
+              <VolunteerList volunteerRows={volunteerListRows} />
             </TabPanel>
             {/* <TabPanel value="2">
               <CardList contactListRows={donorListRows} isDonorList />
