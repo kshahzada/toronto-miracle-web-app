@@ -30,13 +30,14 @@ export async function getVolunteers(token) {
         volunteerListAcc = [
           ...volunteerListAcc,
           createVolData(
+            record.id,
             record['First Name'],
             record['Last Name'],
             record.Email,
             record['Phone Number'],
             record['Vehicle Access'],
             record.Waiver,
-            record['Captain\'s Notes'],
+            record.captainsNotes,
           ),
         ];
       });
@@ -44,4 +45,16 @@ export async function getVolunteers(token) {
       return volunteerListAcc;
     })
     .catch(() => []);
+}
+
+export async function updateVolunteer(userId, fields, setError) {
+  return api.post(`/v1/volunteers/${userId}/update/`, fields)
+    .then((response) => response.data.message)
+    .catch((error) => {
+      if (error.response) {
+        setError('Error in saving.');
+      } else {
+        setError('Site / Network Error, please try again later.');
+      }
+    });
 }

@@ -6,13 +6,33 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
+import { updateVolunteer } from '../api/apiMethods';
+
 function VolunteerListRow({ row }) {
   const [notes, setNotes] = React.useState(row.captainsNotes);
   const [notesEdited, setNotesEdited] = React.useState(false);
+  const [notesSaveError, setNotesSaveError] = React.useState('');
 
   const handleChange = (event) => {
     setNotes(event.target.value);
     setNotesEdited(event.target.value !== row.captainsNotes);
+  };
+
+  const handleNotesSave = async () => {
+    const updatedVolunteer = await updateVolunteer(
+      row.id,
+      {
+        fields: {
+          captainsNotes: notes,
+        },
+      },
+      setNotesSaveError,
+    );
+
+    if (updatedVolunteer && 'captainsNotes' in updatedVolunteer) {
+      setNotes(updatedVolunteer.captainsNotes);
+      setNotesEdited(false);
+    }
   };
 
   return (
@@ -64,6 +84,8 @@ function VolunteerListRow({ row }) {
         >
           <TextField
             id="captain-vol-notes"
+            error={notesSaveError !== ''}
+            helperText={notesSaveError}
             hiddenLabel
             fullWidth
             multiline
@@ -77,7 +99,7 @@ function VolunteerListRow({ row }) {
               },
             }}
           />
-          {notesEdited && <Button variant="contained" size="small">Save</Button>}
+          {notesEdited && <Button variant="contained" size="small" onClick={handleNotesSave}>Save</Button>}
         </Stack>
       </TableCell>
     </TableRow>
