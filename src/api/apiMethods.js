@@ -12,9 +12,9 @@ export async function login(credentials, setError) {
     .then((response) => response.data)
     .catch((error) => {
       if (error.response) {
-        setError('Invalid Email and/or Phone Number');
+        setError('Invalid Email and/or Phone Number. If you haven\'t confirmed your participation as a captain, please do so. Your access may take up to 24hrs to take effect. If problems persist, please email contact@torontomiracle.org for support.');
       } else {
-        setError('Site / Network Error, please try again later');
+        setError('Site / Network Error, please try again later. Please email contact@torontomiracle.org for support.');
       }
     });
 }
