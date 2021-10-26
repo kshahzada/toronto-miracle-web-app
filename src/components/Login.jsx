@@ -58,6 +58,7 @@ export default function Login({ setUser }) {
             height: '20rem',
             background: '#000000',
             padding: '3em',
+            maxWidth: 800,
           }}
         >
           <Typography
@@ -78,7 +79,7 @@ export default function Login({ setUser }) {
           />
           <TextField
             id="outlined-phoneNumber-input"
-            label="Phone Number"
+            label="Phone Number (no spaces)"
             value={phoneNumber}
             variant="outlined"
             onChange={handlePhoneNumberChange}
