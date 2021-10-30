@@ -19,10 +19,10 @@ export async function login(credentials, setError) {
     });
 }
 
-export async function getVolunteers(token) {
+export async function getVolunteers(neighbourhood) {
   let volunteerListAcc = [];
 
-  return api(`/v1/neighbourhoods/${token}/volunteers/`)
+  return api(`/v1/neighbourhoods/${neighbourhood}/volunteers/`)
     .then((response) => {
       const volunteers = response.data.message;
 
@@ -47,8 +47,8 @@ export async function getVolunteers(token) {
     .catch(() => []);
 }
 
-export async function updateVolunteer(neighborhood, userId, fields, setError) {
-  return api.post(`/v1/neighbourhoods/${neighborhood}/volunteers/${userId}/updateNotes/`, fields)
+export async function updateVolunteer(neighbourhood, userId, fields, setError) {
+  return api.post(`/v1/neighbourhoods/${neighbourhood}/volunteers/${userId}/updateNotes/`, fields)
     .then((response) => response.data.message)
     .catch((error) => {
       if (error.response) {
