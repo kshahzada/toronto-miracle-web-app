@@ -5,6 +5,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import MuiPhoneNumber from 'material-ui-phone-number';
+
 import { login } from '../api/apiMethods';
 
 export default function Login({ setUser }) {
@@ -14,8 +16,8 @@ export default function Login({ setUser }) {
   };
 
   const [phoneNumber, setPhoneNumber] = React.useState('');
-  const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
+  const handlePhoneNumberChange = (value) => {
+    setPhoneNumber(value);
   };
 
   const [error, setError] = React.useState('');
@@ -23,9 +25,11 @@ export default function Login({ setUser }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+
+    const strippedPhoneNumber = phoneNumber.replace(/\D/g, '');
     const loggedInUser = await login({
       email,
-      phoneNumber,
+      phoneNumber: strippedPhoneNumber,
     },
     setError);
     if (loggedInUser && 'neighbourhoods' in loggedInUser) {
@@ -77,14 +81,18 @@ export default function Login({ setUser }) {
             color="info"
             focused
           />
-          <TextField
+
+          <MuiPhoneNumber
             id="outlined-phoneNumber-input"
-            label="Phone Number (no spaces)"
+            label="Phone Number"
             value={phoneNumber}
-            variant="outlined"
             onChange={handlePhoneNumberChange}
+            variant="outlined"
             color="info"
             focused
+            defaultCountry="ca"
+            disableDropdown
+            countryCodeEditable={false}
           />
 
           <Typography
