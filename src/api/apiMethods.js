@@ -19,6 +19,12 @@ export async function login(credentials, setError) {
     });
 }
 
+export async function logout(setLogoutErrorShow) {
+  return api.post('/v1/auth/logout')
+    .then((response) => response.data)
+    .catch(() => setLogoutErrorShow(true));
+}
+
 export async function getVolunteers(token) {
   let volunteerListAcc = [];
 
