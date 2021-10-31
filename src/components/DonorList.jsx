@@ -10,7 +10,6 @@ import TablePagination from '@mui/material/TablePagination';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -19,7 +18,7 @@ const HeaderTableCell = styled(TableCell)(() => ({
   },
 }));
 
-function CardList({ contactListRows, isDonorList }) {
+function DonorList({ donorRows }) {
   const [page, setPage] = React.useState(0);
   const ROWS_PER_PAGE = 10;
 
@@ -39,23 +38,13 @@ function CardList({ contactListRows, isDonorList }) {
               <TableRow>
                 <HeaderTableCell>Name</HeaderTableCell>
                 <HeaderTableCell align="right">Email</HeaderTableCell>
-                {isDonorList ? (
-                  <>
-                    <HeaderTableCell align="right">Address</HeaderTableCell>
-                    <HeaderTableCell align="right">Notes</HeaderTableCell>
-                  </>
-                ) : (
-                  <>
-                    <HeaderTableCell align="right">Phone Number</HeaderTableCell>
-                    <HeaderTableCell align="right">Vehicle Access</HeaderTableCell>
-                    <HeaderTableCell align="right">Waiver</HeaderTableCell>
-                  </>
-                )}
+                <HeaderTableCell align="right">Address</HeaderTableCell>
+                <HeaderTableCell align="right">Notes</HeaderTableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {contactListRows
+              {donorRows
                 .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((row) => (
                   <TableRow
@@ -74,51 +63,18 @@ function CardList({ contactListRows, isDonorList }) {
                     <TableCell sx={{ color: 'text.secondary' }} align="right">
                       {row.email}
                     </TableCell>
-
-                    {isDonorList ? (
-                      <>
-                        <TableCell
-                          sx={{ color: 'text.secondary' }}
-                          align="right"
-                        >
-                          {row.address}
-                        </TableCell>
-                        <TableCell
-                          sx={{ color: 'text.secondary' }}
-                          align="right"
-                        >
-                          {row.notes}
-                        </TableCell>
-                      </>
-                    ) : (
-                      <>
-                        <TableCell sx={{ color: 'text.secondary' }} align="right">
-                          {row.phoneNumber}
-                        </TableCell>
-                        <TableCell align="right">
-                          <Checkbox
-                            sx={{
-                              '&.Mui-disabled': {
-                                color: '#199ed9',
-                              },
-                            }}
-                            disabled
-                            checked={row.vehicleAccess}
-                          />
-                        </TableCell>
-                        <TableCell align="right">
-                          <Checkbox
-                            sx={{
-                              '&.Mui-disabled': {
-                                color: '#199ed9',
-                              },
-                            }}
-                            disabled
-                            checked={row.waiver}
-                          />
-                        </TableCell>
-                      </>
-                    )}
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.address}
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.notes}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -127,7 +83,7 @@ function CardList({ contactListRows, isDonorList }) {
         <TablePagination
           rowsPerPageOptions={[ROWS_PER_PAGE]}
           component="div"
-          count={contactListRows.length}
+          count={donorRows.length}
           rowsPerPage={ROWS_PER_PAGE}
           page={page}
           onPageChange={handleChangePage}
@@ -137,4 +93,4 @@ function CardList({ contactListRows, isDonorList }) {
   );
 }
 
-export default CardList;
+export default DonorList;
