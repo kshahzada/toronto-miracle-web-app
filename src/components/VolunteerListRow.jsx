@@ -10,7 +10,7 @@ import { UserContext } from '../contexts/UserContext';
 import { updateVolunteer } from '../api/apiMethods';
 
 function VolunteerListRow({ row }) {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const [notes, setNotes] = React.useState(row.captainsNotes);
   const [notesEdited, setNotesEdited] = React.useState(false);
