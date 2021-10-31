@@ -13,7 +13,7 @@ import { getVolunteers } from '../api/apiMethods';
 import { UserContext } from '../contexts/UserContext';
 
 function Dashboard() {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const [volunteerListRows, setVolunteerListRows] = useState([]);
   // const [donorListRows, setDonorListRows] = useState([]);
@@ -25,7 +25,7 @@ function Dashboard() {
   };
 
   useEffect(async () => {
-    if (user) {
+    if ('neighbourhoods' in user) {
       const volunteers = await getVolunteers(user.neighbourhoods[0]);
       setVolunteerListRows(volunteers);
     }

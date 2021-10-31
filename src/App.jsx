@@ -30,6 +30,11 @@ const theme = createTheme({
 function App() {
   const [user, setUser] = useState(null);
 
+  const userContext = {
+    user,
+    setUser,
+  };
+
   useEffect(async () => {
     const loggedInUser = await getLoggedIn();
     if (loggedInUser && 'neighbourhoods' in loggedInUser) {
@@ -39,9 +44,9 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <UserContext.Provider value={user}>
-        {!user ? (
-          <Login setUser={setUser} />
+      <UserContext.Provider value={userContext}>
+        {!userContext.user ? (
+          <Login />
         ) : (
           <BrowserRouter>
             <Switch>

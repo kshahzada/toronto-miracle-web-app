@@ -50,7 +50,7 @@ function VolunteerList({ volunteerRows }) {
             <TableBody>
               {volunteerRows
                 .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
-                .map((row) => <VolunteerListRow row={row} />)}
+                .map((row) => <VolunteerListRow key={row.email} row={row} />)}
             </TableBody>
           </Table>
         </TableContainer>
