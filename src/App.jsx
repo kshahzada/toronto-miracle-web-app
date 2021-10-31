@@ -35,11 +35,14 @@ function App() {
     setUser,
   };
 
-  useEffect(async () => {
-    const loggedInUser = await getLoggedIn();
-    if (loggedInUser && 'neighbourhoods' in loggedInUser) {
-      setUser(loggedInUser);
-    }
+  useEffect(() => {
+    const getLogin = async () => {
+      const loggedInUser = await getLoggedIn();
+      if (loggedInUser && 'neighbourhoods' in loggedInUser) {
+        setUser(loggedInUser);
+      }
+    };
+    getLogin();
   }, []);
 
   return (

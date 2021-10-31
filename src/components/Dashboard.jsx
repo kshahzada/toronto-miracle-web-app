@@ -24,11 +24,14 @@ function Dashboard() {
     setSelectedTab(newValue);
   };
 
-  useEffect(async () => {
-    if ('neighbourhoods' in user) {
-      const volunteers = await getVolunteers(user.neighbourhoods[0]);
-      setVolunteerListRows(volunteers);
-    }
+  useEffect(() => {
+    const getVols = async () => {
+      if ('neighbourhoods' in user) {
+        const volunteers = await getVolunteers(user.neighbourhoods[0]);
+        setVolunteerListRows(volunteers);
+      }
+    };
+    getVols();
   }, [user]);
 
   return (
