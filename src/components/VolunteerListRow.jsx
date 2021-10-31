@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Checkbox from '@mui/material/Checkbox';
@@ -6,9 +6,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
+import { UserContext } from '../contexts/UserContext';
 import { updateVolunteer } from '../api/apiMethods';
 
 function VolunteerListRow({ row }) {
+  const user = useContext(UserContext);
+
   const [notes, setNotes] = React.useState(row.captainsNotes);
   const [notesEdited, setNotesEdited] = React.useState(false);
   const [notesSaveError, setNotesSaveError] = React.useState('');
@@ -16,10 +19,12 @@ function VolunteerListRow({ row }) {
   const handleChange = (event) => {
     setNotes(event.target.value);
     setNotesEdited(event.target.value !== row.captainsNotes);
+    setNotesSaveError(false);
   };
 
   const handleNotesSave = async () => {
     const updatedVolunteer = await updateVolunteer(
+      user.neighbourhoods[0],
       row.id,
       {
         fields: {
