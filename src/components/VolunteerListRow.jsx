@@ -42,7 +42,6 @@ function VolunteerListRow({ row }) {
 
   return (
     <TableRow
-      key={row.email}
       sx={{
         '&:last-child td, &:last-child th': { border: 0 },
       }}
@@ -68,7 +67,7 @@ function VolunteerListRow({ row }) {
             },
           }}
           disabled
-          checked={row.vehicleAccess}
+          checked={!!row.vehicleAccess}
         />
       </TableCell>
       <TableCell>
@@ -79,7 +78,7 @@ function VolunteerListRow({ row }) {
             },
           }}
           disabled
-          checked={row.waiver}
+          checked={!!row.waiver}
         />
       </TableCell>
       <TableCell>

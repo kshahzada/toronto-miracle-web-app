@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
@@ -7,9 +7,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import MuiPhoneNumber from 'material-ui-phone-number';
 
+import { UserContext } from '../contexts/UserContext';
 import { login } from '../api/apiMethods';
 
-export default function Login({ setUser }) {
+export default function Login() {
+  const { setUser } = useContext(UserContext);
+
   const [email, setEmail] = React.useState('');
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
