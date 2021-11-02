@@ -10,13 +10,15 @@ import TabPanel from '@mui/lab/TabPanel';
 import Header from './Header';
 import VolunteerList from './VolunteerList';
 import DonorList from './DonorList';
-import { getVolunteers } from '../api/apiMethods';
+import { getVolunteers, getDonors, getFoodDrives } from '../api/apiMethods';
 import { UserContext } from '../contexts/UserContext';
 
 function Dashboard() {
   const { user } = useContext(UserContext);
 
   const [volunteerListRows, setVolunteerListRows] = useState([]);
+  const [donorListRows, setDonorListRows] = useState([]);
+  const [foodDriveListRows, setFoodDriveListRows] = useState([]);
 
   const [selectedTab, setSelectedTab] = React.useState('1');
 
@@ -29,6 +31,12 @@ function Dashboard() {
       if ('neighbourhoods' in user) {
         const volunteers = await getVolunteers(user.neighbourhoods[0]);
         setVolunteerListRows(volunteers);
+
+        const donors = await getDonors(user.neighbourhoods[0]);
+        setDonorListRows(donors);
+
+        const foodDrives = await getFoodDrives(user.neighbourhoods[0]);
+        setFoodDriveListRows(foodDrives);
       }
     };
     getData();
@@ -77,10 +85,10 @@ function Dashboard() {
               <VolunteerList volunteerRows={volunteerListRows} />
             </TabPanel>
             <TabPanel value="2">
-              <DonorList />
+              <DonorList donorRows={donorListRows} />
             </TabPanel>
             <TabPanel value="3">
-              <DonorList isFoodDriveList />
+              <DonorList donorRows={foodDriveListRows} />
             </TabPanel>
           </TabContext>
         </Grid>

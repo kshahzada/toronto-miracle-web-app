@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,9 +11,6 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
-import { getDonors, getFoodDrives } from '../api/apiMethods';
-import { UserContext } from '../contexts/UserContext';
-
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     fontWeight: 'bold',
@@ -21,29 +18,9 @@ const HeaderTableCell = styled(TableCell)(() => ({
   },
 }));
 
-function DonorList({ isFoodDriveList }) {
+function DonorList({ donorRows }) {
   const [page, setPage] = React.useState(0);
   const ROWS_PER_PAGE = 10;
-
-  const [donorListRows, setDonorListRows] = useState([]);
-  const [foodDriveListRows, setFoodDriveListRows] = useState([]);
-
-  const { user } = useContext(UserContext);
-
-  useEffect(() => {
-    const getData = async () => {
-      if ('neighbourhoods' in user) {
-        const donors = await getDonors(user.neighbourhoods[0]);
-        setDonorListRows(donors);
-
-        const foodDrives = await getFoodDrives(user.neighbourhoods[0]);
-        setFoodDriveListRows(foodDrives);
-      }
-    };
-    getData();
-  }, [user]);
-
-  const donorRows = isFoodDriveList ? foodDriveListRows : donorListRows;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
