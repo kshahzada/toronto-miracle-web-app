@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,6 +11,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
+import { getDonors, getFoodDrives } from '../api/apiMethods';
+import { UserContext } from '../contexts/UserContext';
+
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     fontWeight: 'bold',
@@ -18,9 +21,29 @@ const HeaderTableCell = styled(TableCell)(() => ({
   },
 }));
 
-function DonorList({ donorRows }) {
+function DonorList({ isFoodDriveList }) {
   const [page, setPage] = React.useState(0);
   const ROWS_PER_PAGE = 10;
+
+  const [donorListRows, setDonorListRows] = useState([]);
+  const [foodDriveListRows, setFoodDriveListRows] = useState([]);
+
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    const getData = async () => {
+      if ('neighbourhoods' in user) {
+        const donors = await getDonors(user.neighbourhoods[0]);
+        setDonorListRows(donors);
+
+        const foodDrives = await getFoodDrives(user.neighbourhoods[0]);
+        setFoodDriveListRows(foodDrives);
+      }
+    };
+    getData();
+  }, [user]);
+
+  const donorRows = isFoodDriveList ? foodDriveListRows : donorListRows;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -39,13 +62,15 @@ function DonorList({ donorRows }) {
                 <HeaderTableCell>Name</HeaderTableCell>
                 <HeaderTableCell align="right">Email</HeaderTableCell>
                 <HeaderTableCell align="right">Address</HeaderTableCell>
-                <HeaderTableCell align="right">Notes</HeaderTableCell>
+                <HeaderTableCell align="right">Postal Code</HeaderTableCell>
+                <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
+
               </TableRow>
             </TableHead>
 
             <TableBody>
               {donorRows
-                .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
+                ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((row) => (
                   <TableRow
                     key={row.email}
@@ -58,7 +83,7 @@ function DonorList({ donorRows }) {
                       component="th"
                       scope="row"
                     >
-                      {row.name}
+                      {row.firstName}
                     </TableCell>
                     <TableCell sx={{ color: 'text.secondary' }} align="right">
                       {row.email}
@@ -73,7 +98,13 @@ function DonorList({ donorRows }) {
                       sx={{ color: 'text.secondary' }}
                       align="right"
                     >
-                      {row.notes}
+                      {row.postalCode}
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.pickUpNotes}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -83,7 +114,7 @@ function DonorList({ donorRows }) {
         <TablePagination
           rowsPerPageOptions={[ROWS_PER_PAGE]}
           component="div"
-          count={donorRows.length}
+          count={donorRows?.length}
           rowsPerPage={ROWS_PER_PAGE}
           page={page}
           onPageChange={handleChangePage}

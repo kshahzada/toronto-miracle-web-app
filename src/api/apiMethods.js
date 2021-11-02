@@ -1,5 +1,5 @@
 import api from './apiBase';
-import { createVolData } from './apiHelpers';
+import { createVolData, createDonorData } from './apiHelpers';
 
 export async function getLoggedIn() {
   return api.get('/v1/auth/me')
@@ -63,4 +63,56 @@ export async function updateVolunteer(neighbourhood, userId, fields, setError) {
         setError('Site / Network Error, please try again later.');
       }
     });
+}
+
+export async function getDonors(neighbourhood) {
+  let donorsAcc = [];
+
+  return api(`/v1/neighbourhoods/${neighbourhood}/donors/`)
+    .then((response) => {
+      const donors = response.data.message;
+
+      donors.forEach((record) => {
+        donorsAcc = [
+          ...donorsAcc,
+          createDonorData(
+            record.id,
+            record.email,
+            record['first name'],
+            record.address,
+            record['postal code'],
+            record['pickup notes'],
+          ),
+        ];
+      });
+
+      return donorsAcc;
+    })
+    .catch(() => []);
+}
+
+export async function getFoodDrives(neighbourhood) {
+  let foodDrivesAcc = [];
+
+  return api(`/v1/neighbourhoods/${neighbourhood}/foodDrives/`)
+    .then((response) => {
+      const foodDrives = response.data.message;
+
+      foodDrives.forEach((record) => {
+        foodDrivesAcc = [
+          ...foodDrivesAcc,
+          createDonorData(
+            record.id,
+            record.email,
+            record['first name'],
+            record.address,
+            record['postal code'],
+            record['pickup notes'],
+          ),
+        ];
+      });
+
+      return foodDrivesAcc;
+    })
+    .catch(() => []);
 }

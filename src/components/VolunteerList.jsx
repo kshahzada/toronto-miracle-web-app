@@ -49,7 +49,7 @@ function VolunteerList({ volunteerRows }) {
 
             <TableBody>
               {volunteerRows
-                .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
+                ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((row) => <VolunteerListRow key={row.email} row={row} />)}
             </TableBody>
           </Table>
@@ -57,7 +57,7 @@ function VolunteerList({ volunteerRows }) {
         <TablePagination
           rowsPerPageOptions={[ROWS_PER_PAGE]}
           component="div"
-          count={volunteerRows.length}
+          count={volunteerRows?.length}
           rowsPerPage={ROWS_PER_PAGE}
           page={page}
           onPageChange={handleChangePage}

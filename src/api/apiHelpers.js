@@ -20,3 +20,21 @@ export function createVolData(
     captainsNotes,
   };
 }
+
+export function createDonorData(
+  id,
+  email,
+  firstName,
+  address,
+  postalCode,
+  pickUpNotes,
+) {
+  return {
+    id,
+    email,
+    firstName,
+    address,
+    postalCode,
+    pickUpNotes,
+  };
+}
