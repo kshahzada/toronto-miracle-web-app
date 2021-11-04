@@ -11,8 +11,6 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
-import VolunteerListRow from './VolunteerListRow';
-
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     fontWeight: 'bold',
@@ -20,7 +18,7 @@ const HeaderTableCell = styled(TableCell)(() => ({
   },
 }));
 
-function VolunteerList({ volunteerRows }) {
+function DriveList({ driveRows }) {
   const [page, setPage] = React.useState(0);
   const ROWS_PER_PAGE = 10;
 
@@ -39,25 +37,60 @@ function VolunteerList({ volunteerRows }) {
             <TableHead>
               <TableRow>
                 <HeaderTableCell>Name</HeaderTableCell>
-                <HeaderTableCell>Email</HeaderTableCell>
-                <HeaderTableCell>Phone Number</HeaderTableCell>
-                <HeaderTableCell>Vehicle Access</HeaderTableCell>
-                <HeaderTableCell>Waiver</HeaderTableCell>
-                <HeaderTableCell>Notes</HeaderTableCell>
+                <HeaderTableCell align="right">Email</HeaderTableCell>
+                <HeaderTableCell align="right">Address</HeaderTableCell>
+                <HeaderTableCell align="right">Postal Code</HeaderTableCell>
+                <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {volunteerRows
+              {driveRows
                 ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
-                .map((row) => <VolunteerListRow key={row.email} row={row} />)}
+                .map((row) => (
+                  <TableRow
+                    key={row.email}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                    }}
+                  >
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      component="th"
+                      scope="row"
+                    >
+                      {row.firstName}
+                    </TableCell>
+                    <TableCell sx={{ color: 'text.secondary' }} align="right">
+                      {row.email}
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.address}
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.postalCode}
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.pickUpNotes}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[ROWS_PER_PAGE]}
           component="div"
-          count={volunteerRows?.length}
+          count={driveRows?.length}
           rowsPerPage={ROWS_PER_PAGE}
           page={page}
           onPageChange={handleChangePage}
@@ -67,4 +100,4 @@ function VolunteerList({ volunteerRows }) {
   );
 }
 
-export default VolunteerList;
+export default DriveList;

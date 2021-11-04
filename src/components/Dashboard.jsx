@@ -9,14 +9,17 @@ import TabPanel from '@mui/lab/TabPanel';
 
 import Header from './Header';
 import VolunteerList from './VolunteerList';
-import { getVolunteers } from '../api/apiMethods';
+import DonorList from './DonorList';
+import DriveList from './DriveList';
+import { getVolunteers, getDonors, getFoodDrives } from '../api/apiMethods';
 import { UserContext } from '../contexts/UserContext';
 
 function Dashboard() {
   const { user } = useContext(UserContext);
 
   const [volunteerListRows, setVolunteerListRows] = useState([]);
-  // const [donorListRows, setDonorListRows] = useState([]);
+  const [donorListRows, setDonorListRows] = useState([]);
+  const [foodDriveListRows, setFoodDriveListRows] = useState([]);
 
   const [selectedTab, setSelectedTab] = React.useState('1');
 
@@ -25,13 +28,19 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    const getVols = async () => {
+    const getData = async () => {
       if ('neighbourhoods' in user) {
         const volunteers = await getVolunteers(user.neighbourhoods[0]);
         setVolunteerListRows(volunteers);
+
+        const donors = await getDonors(user.neighbourhoods[0]);
+        setDonorListRows(donors);
+
+        const foodDrives = await getFoodDrives(user.neighbourhoods[0]);
+        setFoodDriveListRows(foodDrives);
       }
     };
-    getVols();
+    getData();
   }, [user]);
 
   return (
@@ -69,18 +78,19 @@ function Dashboard() {
                 indicatorColor="secondary"
               >
                 <Tab label="Volunteer List" value="1" />
-                {/* <Tab label="Donor List" value="2" /> */}
+                <Tab label="Donor List" value="2" />
+                <Tab label="Food Drive List" value="3" />
               </TabList>
             </Box>
             <TabPanel value="1">
               <VolunteerList volunteerRows={volunteerListRows} />
             </TabPanel>
-            {/* <TabPanel value="2">
-              <CardList contactListRows={donorListRows} isDonorList />
-            </TabPanel> */}
-            {/* <TabPanel value="3">
-              <Stats volunteerListRows={volunteerListRows} donorListRows={donorListRows} />
-            </TabPanel> */}
+            <TabPanel value="2">
+              <DonorList donorRows={donorListRows} />
+            </TabPanel>
+            <TabPanel value="3">
+              <DriveList driveRows={foodDriveListRows} />
+            </TabPanel>
           </TabContext>
         </Grid>
       </Grid>

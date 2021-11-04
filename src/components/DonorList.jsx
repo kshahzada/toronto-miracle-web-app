@@ -36,16 +36,14 @@ function DonorList({ donorRows }) {
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <HeaderTableCell>Name</HeaderTableCell>
-                <HeaderTableCell align="right">Email</HeaderTableCell>
-                <HeaderTableCell align="right">Address</HeaderTableCell>
-                <HeaderTableCell align="right">Notes</HeaderTableCell>
+                <HeaderTableCell>Address</HeaderTableCell>
+                <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {donorRows
-                .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
+                ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((row) => (
                   <TableRow
                     key={row.email}
@@ -55,25 +53,15 @@ function DonorList({ donorRows }) {
                   >
                     <TableCell
                       sx={{ color: 'text.secondary' }}
-                      component="th"
-                      scope="row"
+                      align="left"
                     >
-                      {row.name}
-                    </TableCell>
-                    <TableCell sx={{ color: 'text.secondary' }} align="right">
-                      {row.email}
+                      {`${row.address}${row.postalCode ? " "+row.postalCode : ""}`}
                     </TableCell>
                     <TableCell
                       sx={{ color: 'text.secondary' }}
                       align="right"
                     >
-                      {row.address}
-                    </TableCell>
-                    <TableCell
-                      sx={{ color: 'text.secondary' }}
-                      align="right"
-                    >
-                      {row.notes}
+                      {row.pickUpNotes}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -83,7 +71,7 @@ function DonorList({ donorRows }) {
         <TablePagination
           rowsPerPageOptions={[ROWS_PER_PAGE]}
           component="div"
-          count={donorRows.length}
+          count={donorRows?.length}
           rowsPerPage={ROWS_PER_PAGE}
           page={page}
           onPageChange={handleChangePage}
