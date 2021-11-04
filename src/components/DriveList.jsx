@@ -18,7 +18,7 @@ const HeaderTableCell = styled(TableCell)(() => ({
   },
 }));
 
-function DonorList({ donorRows }) {
+function DriveList({ driveRows }) {
   const [page, setPage] = React.useState(0);
   const ROWS_PER_PAGE = 10;
 
@@ -36,13 +36,16 @@ function DonorList({ donorRows }) {
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <HeaderTableCell>Address</HeaderTableCell>
+                <HeaderTableCell>Name</HeaderTableCell>
+                <HeaderTableCell align="right">Email</HeaderTableCell>
+                <HeaderTableCell align="right">Address</HeaderTableCell>
+                <HeaderTableCell align="right">Postal Code</HeaderTableCell>
                 <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {donorRows
+              {driveRows
                 ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                 .map((row) => (
                   <TableRow
@@ -53,9 +56,25 @@ function DonorList({ donorRows }) {
                   >
                     <TableCell
                       sx={{ color: 'text.secondary' }}
-                      align="left"
+                      component="th"
+                      scope="row"
                     >
-                      {`${row.address}${row.postalCode ? " "+row.postalCode : ""}`}
+                      {row.firstName}
+                    </TableCell>
+                    <TableCell sx={{ color: 'text.secondary' }} align="right">
+                      {row.email}
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.address}
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: 'text.secondary' }}
+                      align="right"
+                    >
+                      {row.postalCode}
                     </TableCell>
                     <TableCell
                       sx={{ color: 'text.secondary' }}
@@ -71,7 +90,7 @@ function DonorList({ donorRows }) {
         <TablePagination
           rowsPerPageOptions={[ROWS_PER_PAGE]}
           component="div"
-          count={donorRows?.length}
+          count={driveRows?.length}
           rowsPerPage={ROWS_PER_PAGE}
           page={page}
           onPageChange={handleChangePage}
@@ -81,4 +100,4 @@ function DonorList({ donorRows }) {
   );
 }
 
-export default DonorList;
+export default DriveList;

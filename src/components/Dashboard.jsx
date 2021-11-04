@@ -10,6 +10,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import Header from './Header';
 import VolunteerList from './VolunteerList';
 import DonorList from './DonorList';
+import DriveList from './DriveList';
 import { getVolunteers, getDonors, getFoodDrives } from '../api/apiMethods';
 import { UserContext } from '../contexts/UserContext';
 
@@ -88,7 +89,7 @@ function Dashboard() {
               <DonorList donorRows={donorListRows} />
             </TabPanel>
             <TabPanel value="3">
-              <DonorList donorRows={foodDriveListRows} />
+              <DriveList driveRows={foodDriveListRows} />
             </TabPanel>
           </TabContext>
         </Grid>
