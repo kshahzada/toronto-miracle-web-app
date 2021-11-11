@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import '../../src/index.css'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { CSVLink } from "react-csv";
@@ -22,7 +22,7 @@ function ExportListButton({ data, filename, isDonor }) {
     })
 
     setCSVData(CSVDataAcc)
-  }, [data]); 
+  }, [data, isDonor]); 
 
   return (
     <>
