@@ -15,7 +15,7 @@ export function createVolData(
     name,
     email,
     phoneNumber,
-    vehicleAccess,
+    vehicleAccess: vehicleAccess === 1,
     waiver,
     captainsNotes,
   };

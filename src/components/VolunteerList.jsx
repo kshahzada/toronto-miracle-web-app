@@ -10,8 +10,10 @@ import TablePagination from '@mui/material/TablePagination';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 import VolunteerListRow from './VolunteerListRow';
+import ExportListButton from './ExportListButton';
 
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,41 +31,48 @@ function VolunteerList({ volunteerRows }) {
   };
 
   return (
-    <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
-      <CardContent sx={{ marginBottom: '-2em' }}>
-        <TableContainer
-          sx={{ height: '55vh', overflow: 'scroll' }}
-          component={Paper}
-        >
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <HeaderTableCell>Name</HeaderTableCell>
-                <HeaderTableCell>Email</HeaderTableCell>
-                <HeaderTableCell>Phone Number</HeaderTableCell>
-                <HeaderTableCell>Vehicle Access</HeaderTableCell>
-                <HeaderTableCell>Waiver</HeaderTableCell>
-                <HeaderTableCell>Notes</HeaderTableCell>
-              </TableRow>
-            </TableHead>
+    <Grid container justifyContent="flex-end" spacing={1}>
+      <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ExportListButton data={volunteerRows} filename="vol-list.csv" />
+      </Grid>
+      <Grid item xs={12}>
+        <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
+          <CardContent sx={{ marginBottom: '-2em' }}>
+            <TableContainer
+              sx={{ height: '55vh', overflow: 'scroll' }}
+              component={Paper}
+            >
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <HeaderTableCell>Name</HeaderTableCell>
+                    <HeaderTableCell>Email</HeaderTableCell>
+                    <HeaderTableCell>Phone Number</HeaderTableCell>
+                    <HeaderTableCell>Vehicle Access</HeaderTableCell>
+                    <HeaderTableCell>Waiver</HeaderTableCell>
+                    <HeaderTableCell>Notes</HeaderTableCell>
+                  </TableRow>
+                </TableHead>
 
-            <TableBody>
-              {volunteerRows
-                ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
-                .map((row) => <VolunteerListRow key={row.email} row={row} />)}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[ROWS_PER_PAGE]}
-          component="div"
-          count={volunteerRows?.length}
-          rowsPerPage={ROWS_PER_PAGE}
-          page={page}
-          onPageChange={handleChangePage}
-        />
-      </CardContent>
-    </Card>
+                <TableBody>
+                  {volunteerRows
+                    ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
+                    .map((row) => <VolunteerListRow key={row.email} row={row} />)}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[ROWS_PER_PAGE]}
+              component="div"
+              count={volunteerRows?.length}
+              rowsPerPage={ROWS_PER_PAGE}
+              page={page}
+              onPageChange={handleChangePage}
+            />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 
