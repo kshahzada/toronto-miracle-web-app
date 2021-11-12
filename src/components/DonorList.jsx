@@ -10,6 +10,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
+import ExportListButton from './ExportListButton';
 
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -27,57 +30,64 @@ function DonorList({ donorRows }) {
   };
 
   return (
-    <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
-      <CardContent sx={{ marginBottom: '-2em' }}>
-        <TableContainer
-          sx={{ height: '55vh', overflow: 'scroll' }}
-          component={Paper}
-        >
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <HeaderTableCell>Address</HeaderTableCell>
-                <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {donorRows
-                ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
-                .map((row) => (
-                  <TableRow
-                    key={row.email}
-                    sx={{
-                      '&:last-child td, &:last-child th': { border: 0 },
-                    }}
-                  >
-                    <TableCell
-                      sx={{ color: 'text.secondary' }}
-                      align="left"
-                    >
-                      {`${row.address}${row.postalCode ? " "+row.postalCode : ""}`}
-                    </TableCell>
-                    <TableCell
-                      sx={{ color: 'text.secondary' }}
-                      align="right"
-                    >
-                      {row.pickUpNotes}
-                    </TableCell>
+    <Grid container justifyContent="flex-end" spacing={1}>
+      <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ExportListButton data={donorRows} filename="donor-list.csv" isDonor/>
+      </Grid>
+      <Grid item xs={12}>
+        <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
+          <CardContent sx={{ marginBottom: '-2em' }}>
+            <TableContainer
+              sx={{ height: '55vh', overflow: 'scroll' }}
+              component={Paper}
+            >
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <HeaderTableCell>Address</HeaderTableCell>
+                    <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
                   </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[ROWS_PER_PAGE]}
-          component="div"
-          count={donorRows?.length}
-          rowsPerPage={ROWS_PER_PAGE}
-          page={page}
-          onPageChange={handleChangePage}
-        />
-      </CardContent>
-    </Card>
+                </TableHead>
+
+                <TableBody>
+                  {donorRows
+                    ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
+                    .map((row) => (
+                      <TableRow
+                        key={row.email}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell
+                          sx={{ color: 'text.secondary' }}
+                          align="left"
+                        >
+                          {`${row.address} ${row.postalCode ? row.postalCode : ''}`}
+                        </TableCell>
+                        <TableCell
+                          sx={{ color: 'text.secondary' }}
+                          align="right"
+                        >
+                          {row.pickUpNotes}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[ROWS_PER_PAGE]}
+              component="div"
+              count={donorRows?.length}
+              rowsPerPage={ROWS_PER_PAGE}
+              page={page}
+              onPageChange={handleChangePage}
+            />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 

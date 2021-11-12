@@ -10,6 +10,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
+import ExportListButton from './ExportListButton';
 
 const HeaderTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -27,76 +30,76 @@ function DriveList({ driveRows }) {
   };
 
   return (
-    <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
-      <CardContent sx={{ marginBottom: '-2em' }}>
-        <TableContainer
-          sx={{ height: '55vh', overflow: 'scroll' }}
-          component={Paper}
-        >
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <HeaderTableCell>Name</HeaderTableCell>
-                <HeaderTableCell align="right">Email</HeaderTableCell>
-                <HeaderTableCell align="right">Address</HeaderTableCell>
-                <HeaderTableCell align="right">Postal Code</HeaderTableCell>
-                <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {driveRows
-                ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
-                .map((row) => (
-                  <TableRow
-                    key={row.email}
-                    sx={{
-                      '&:last-child td, &:last-child th': { border: 0 },
-                    }}
-                  >
-                    <TableCell
-                      sx={{ color: 'text.secondary' }}
-                      component="th"
-                      scope="row"
-                    >
-                      {row.firstName}
-                    </TableCell>
-                    <TableCell sx={{ color: 'text.secondary' }} align="right">
-                      {row.email}
-                    </TableCell>
-                    <TableCell
-                      sx={{ color: 'text.secondary' }}
-                      align="right"
-                    >
-                      {row.address}
-                    </TableCell>
-                    <TableCell
-                      sx={{ color: 'text.secondary' }}
-                      align="right"
-                    >
-                      {row.postalCode}
-                    </TableCell>
-                    <TableCell
-                      sx={{ color: 'text.secondary' }}
-                      align="right"
-                    >
-                      {row.pickUpNotes}
-                    </TableCell>
+    <Grid container justifyContent="flex-end" spacing={1}>
+      <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ExportListButton data={driveRows} filename="drive-list.csv" />
+      </Grid>
+      <Grid item xs={12}>
+        <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
+          <CardContent sx={{ marginBottom: '-2em' }}>
+            <TableContainer
+              sx={{ height: '55vh', overflow: 'scroll' }}
+              component={Paper}
+            >
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <HeaderTableCell>Name</HeaderTableCell>
+                    <HeaderTableCell align="right">Email</HeaderTableCell>
+                    <HeaderTableCell align="right">Address</HeaderTableCell>
+                    <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
                   </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[ROWS_PER_PAGE]}
-          component="div"
-          count={driveRows?.length}
-          rowsPerPage={ROWS_PER_PAGE}
-          page={page}
-          onPageChange={handleChangePage}
-        />
-      </CardContent>
-    </Card>
+                </TableHead>
+
+                <TableBody>
+                  {driveRows
+                    ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
+                    .map((row) => (
+                      <TableRow
+                        key={row.email}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell
+                          sx={{ color: 'text.secondary' }}
+                          component="th"
+                          scope="row"
+                        >
+                          {row.firstName}
+                        </TableCell>
+                        <TableCell sx={{ color: 'text.secondary' }} align="right">
+                          {row.email}
+                        </TableCell>
+                        <TableCell
+                          sx={{ color: 'text.secondary' }}
+                          align="right"
+                        >
+                          {`${row.address} ${row.postalCode ? row.postalCode : ''}`}
+                        </TableCell>
+                        <TableCell
+                          sx={{ color: 'text.secondary' }}
+                          align="right"
+                        >
+                          {row.pickUpNotes}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[ROWS_PER_PAGE]}
+              component="div"
+              count={driveRows?.length}
+              rowsPerPage={ROWS_PER_PAGE}
+              page={page}
+              onPageChange={handleChangePage}
+            />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 
