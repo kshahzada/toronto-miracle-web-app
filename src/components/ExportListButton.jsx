@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import '../../src/index.css'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { CSVLink } from "react-csv";
