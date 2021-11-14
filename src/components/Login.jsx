@@ -37,7 +37,6 @@ export default function Login() {
     setError);
     if (loggedInUser && 'neighbourhoods' in loggedInUser) {
       setUser(loggedInUser);
-      console.log(loggedInUser);
     }
   };
 
