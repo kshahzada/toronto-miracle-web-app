@@ -23,7 +23,7 @@ const HeaderTableCell = styled(TableCell)(() => ({
 
 function DriveList({ driveRows }) {
   const [page, setPage] = React.useState(0);
-  const ROWS_PER_PAGE = 10;
+  const ROWS_PER_PAGE = 100;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -32,7 +32,7 @@ function DriveList({ driveRows }) {
   return (
     <Grid container justifyContent="flex-end" spacing={1}>
       <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ExportListButton data={driveRows} filename="drive-list.csv" />
+        <ExportListButton data={driveRows} filename="drive-list.csv" headers={["firstName", "email", "address", "postalCode", "pickUpNotes"]}/>
       </Grid>
       <Grid item xs={12}>
         <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
@@ -56,7 +56,7 @@ function DriveList({ driveRows }) {
                     ?.slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
                     .map((row) => (
                       <TableRow
-                        key={row.email}
+                        key={row.userId}
                         sx={{
                           '&:last-child td, &:last-child th': { border: 0 },
                         }}
@@ -66,7 +66,7 @@ function DriveList({ driveRows }) {
                           component="th"
                           scope="row"
                         >
-                          {row.firstName}
+                          {row.name}
                         </TableCell>
                         <TableCell sx={{ color: 'text.secondary' }} align="right">
                           {row.email}
@@ -75,13 +75,13 @@ function DriveList({ driveRows }) {
                           sx={{ color: 'text.secondary' }}
                           align="right"
                         >
-                          {`${row.address} ${row.postalCode ? row.postalCode : ''}`}
+                          {row.address}
                         </TableCell>
                         <TableCell
                           sx={{ color: 'text.secondary' }}
                           align="right"
                         >
-                          {row.pickUpNotes}
+                          {row.notes}
                         </TableCell>
                       </TableRow>
                     ))}

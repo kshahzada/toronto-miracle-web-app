@@ -22,19 +22,39 @@ export function createVolData(
 }
 
 export function createDonorData(
-  id,
-  email,
-  firstName,
+  userId,
   address,
-  postalCode,
-  pickUpNotes,
+  notes,
+  team,
+  neighbourhood,
 ) {
   return {
-    id,
-    email,
-    firstName,
+    userId,
     address,
-    postalCode,
-    pickUpNotes,
+    notes,
+    team,
+    neighbourhood,
+  };
+}
+
+export function createDriveData(
+  userId,
+  email,
+  name,
+  address,
+  notes,
+  foodDrive,
+  team,
+  neighbourhood
+) {
+  return {
+    userId,
+    email,
+    name,
+    address,
+    notes,
+    foodDrive,
+    team,
+    neighbourhood
   };
 }
