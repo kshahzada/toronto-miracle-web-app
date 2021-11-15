@@ -32,7 +32,7 @@ function DriveList({ driveRows }) {
   return (
     <Grid container justifyContent="flex-end" spacing={1}>
       <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ExportListButton data={driveRows} filename="drive-list.csv" headers={["name", "email", "address", "address", "notes"]}/>
+        <ExportListButton data={driveRows} filename="drive-list.csv" headers={["name", "email", "address", "notes"]}/>
       </Grid>
       <Grid item xs={12}>
         <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
