@@ -32,7 +32,7 @@ function DonorList({ donorRows }) {
   return (
     <Grid container justifyContent="flex-end" spacing={1}>
       <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <ExportListButton data={donorRows} filename="donor-list.csv" headers={["address", "postalCode", "pickUpNotes"]}/>
+        <ExportListButton data={donorRows} filename="donor-list.csv" headers={["address", "notes"]}/>
       </Grid>
       <Grid item xs={12}>
         <Card sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}>
