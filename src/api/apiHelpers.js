@@ -1,23 +1,24 @@
 export function createVolData(
-  id,
-  firstName,
-  lastName,
+  userId,
   email,
-  phoneNumber,
+  name,
+  number,
   vehicleAccess,
   waiver,
-  captainsNotes,
+  notes,
+  team,
+  neighbourhood,
 ) {
-  const name = firstName.concat(' ', lastName);
-
   return {
-    id,
-    name,
+    userId,
     email,
-    phoneNumber,
+    name,
+    number,
     vehicleAccess: vehicleAccess === 1,
     waiver,
-    captainsNotes,
+    notes,
+    team,
+    neighbourhood,
   };
 }
 

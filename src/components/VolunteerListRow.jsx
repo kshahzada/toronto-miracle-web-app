@@ -57,7 +57,7 @@ function VolunteerListRow({ row }) {
         {row.email}
       </TableCell>
       <TableCell sx={{ color: 'text.secondary' }}>
-        {row.phoneNumber}
+        {row.number}
       </TableCell>
       <TableCell>
         <Checkbox
