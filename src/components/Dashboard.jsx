@@ -30,7 +30,7 @@ function Dashboard() {
   useEffect(() => {
     const getData = async () => {
       if ('team' in user) {
-        const volunteers = await getVolunteers(user.neighbourhoods[0]);
+        const volunteers = await getVolunteers(user.team);
         setVolunteerListRows(volunteers);
 
         const donors = await getDonors(user.team);

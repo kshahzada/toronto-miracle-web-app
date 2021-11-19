@@ -25,10 +25,10 @@ export async function logout(setLogoutErrorShow) {
     .catch(() => setLogoutErrorShow(true));
 }
 
-export async function getVolunteers(neighbourhood) {
+export async function getVolunteers(team) {
   let volunteerListAcc = [];
 
-  return api(`/v1/neighbourhoods/${neighbourhood}/volunteers/`)
+  return api(`/v1/teams/${team}/volunteers/`)
     .then((response) => {
       const volunteers = response.data.message;
 
@@ -36,14 +36,15 @@ export async function getVolunteers(neighbourhood) {
         volunteerListAcc = [
           ...volunteerListAcc,
           createVolData(
-            record.id,
-            record['First Name'],
-            record['Last Name'],
-            record.Email,
-            record['Phone Number'],
-            record['Vehicle Access'],
-            record.Waiver,
-            record.captainsNotes,
+            record.userId,
+            record.email,
+            record.name,
+            record.number,
+            record.vehicleAccess,
+            record.waiver,
+            record.notes,
+            record.team,
+            record.neighbourhood,
           ),
         ];
       });
@@ -53,8 +54,8 @@ export async function getVolunteers(neighbourhood) {
     .catch(() => []);
 }
 
-export async function updateVolunteer(neighbourhood, userId, fields, setError) {
-  return api.post(`/v1/neighbourhoods/${neighbourhood}/volunteers/${userId}/updateNotes/`, fields)
+export async function updateVolunteer(team, userId, fields, setError) {
+  return api.post(`/v1/teams/${team}/volunteers/${userId}/updateNotes/`, fields)
     .then((response) => response.data.message)
     .catch((error) => {
       if (error.response) {
