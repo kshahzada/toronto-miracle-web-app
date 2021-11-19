@@ -54,8 +54,8 @@ export async function getVolunteers(team) {
     .catch(() => []);
 }
 
-export async function updateVolunteer(neighbourhood, userId, fields, setError) {
-  return api.post(`/v1/neighbourhoods/${neighbourhood}/volunteers/${userId}/updateNotes/`, fields)
+export async function updateVolunteer(team, userId, fields, setError) {
+  return api.post(`/v1/teams/${team}/volunteers/${userId}/updateNotes/`, fields)
     .then((response) => response.data.message)
     .catch((error) => {
       if (error.response) {
