@@ -34,7 +34,7 @@ function VolunteerListRow({ row }) {
       setNotesSaveError,
     );
 
-    if (updatedVolunteer && 'notes' in updatedVolunteer) {
+    if (updatedVolunteer) {
       setNotes(updatedVolunteer.notes);
       setNotesEdited(false);
     }
