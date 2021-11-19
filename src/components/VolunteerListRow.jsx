@@ -19,7 +19,7 @@ function VolunteerListRow({ row }) {
   const handleChange = (event) => {
     setNotes(event.target.value);
     setNotesEdited(event.target.value !== row.notes);
-    setNotesSaveError(false);
+    setNotesSaveError('');
   };
 
   const handleNotesSave = async () => {
