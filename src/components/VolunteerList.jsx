@@ -24,7 +24,7 @@ const HeaderTableCell = styled(TableCell)(() => ({
 
 function VolunteerList({ volunteerRows }) {
   const [page, setPage] = React.useState(0);
-  const ROWS_PER_PAGE = 10;
+  const ROWS_PER_PAGE = 100;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
