@@ -29,14 +29,14 @@ function Dashboard() {
 
   useEffect(() => {
     const getData = async () => {
-      if ('neighbourhoods' in user) {
-        const volunteers = await getVolunteers(user.neighbourhoods[0]);
+      if ('team' in user) {
+        const volunteers = await getVolunteers(user.team);
         setVolunteerListRows(volunteers);
 
-        const donors = await getDonors(user.neighbourhoods[0]);
+        const donors = await getDonors(user.team);
         setDonorListRows(donors);
 
-        const foodDrives = await getFoodDrives(user.neighbourhoods[0]);
+        const foodDrives = await getFoodDrives(user.team);
         setFoodDriveListRows(foodDrives);
       }
     };

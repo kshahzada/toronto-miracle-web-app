@@ -1,5 +1,5 @@
 import api from './apiBase';
-import { createVolData, createDonorData } from './apiHelpers';
+import { createVolData, createDonorData,  createDriveData} from './apiHelpers';
 
 export async function getLoggedIn() {
   return api.get('/v1/auth/me')
@@ -25,10 +25,10 @@ export async function logout(setLogoutErrorShow) {
     .catch(() => setLogoutErrorShow(true));
 }
 
-export async function getVolunteers(neighbourhood) {
+export async function getVolunteers(team) {
   let volunteerListAcc = [];
 
-  return api(`/v1/neighbourhoods/${neighbourhood}/volunteers/`)
+  return api(`/v1/teams/${team}/volunteers/`)
     .then((response) => {
       const volunteers = response.data.message;
 
@@ -36,14 +36,15 @@ export async function getVolunteers(neighbourhood) {
         volunteerListAcc = [
           ...volunteerListAcc,
           createVolData(
-            record.id,
-            record['First Name'],
-            record['Last Name'],
-            record.Email,
-            record['Phone Number'],
-            record['Vehicle Access'],
-            record.Waiver,
-            record.captainsNotes,
+            record.userId,
+            record.email,
+            record.name,
+            record.number,
+            record.vehicleAccess,
+            record.waiver,
+            record.notes,
+            record.team,
+            record.neighbourhood,
           ),
         ];
       });
@@ -53,8 +54,8 @@ export async function getVolunteers(neighbourhood) {
     .catch(() => []);
 }
 
-export async function updateVolunteer(neighbourhood, userId, fields, setError) {
-  return api.post(`/v1/neighbourhoods/${neighbourhood}/volunteers/${userId}/updateNotes/`, fields)
+export async function updateVolunteer(team, userId, fields, setError) {
+  return api.post(`/v1/teams/${team}/volunteers/${userId}/updateNotes/`, fields)
     .then((response) => response.data.message)
     .catch((error) => {
       if (error.response) {
@@ -65,10 +66,10 @@ export async function updateVolunteer(neighbourhood, userId, fields, setError) {
     });
 }
 
-export async function getDonors(neighbourhood) {
+export async function getDonors(team) {
   let donorsAcc = [];
 
-  return api(`/v1/neighbourhoods/${neighbourhood}/donors/`)
+  return api(`/v1/teams/${team}/donors/`)
     .then((response) => {
       const donors = response.data.message;
 
@@ -76,12 +77,11 @@ export async function getDonors(neighbourhood) {
         donorsAcc = [
           ...donorsAcc,
           createDonorData(
-            record.id,
-            record.email,
-            record['first name'],
+            record.userId,
             record.address,
-            record['postal code'],
-            record['pickup notes'],
+            record.notes,
+            record.team,
+            record.neighbourhood,
           ),
         ];
       });
@@ -91,23 +91,25 @@ export async function getDonors(neighbourhood) {
     .catch(() => []);
 }
 
-export async function getFoodDrives(neighbourhood) {
+export async function getFoodDrives(team) {
   let foodDrivesAcc = [];
 
-  return api(`/v1/neighbourhoods/${neighbourhood}/foodDrives/`)
+  return api(`/v1/teams/${team}/food-drives/`)
     .then((response) => {
       const foodDrives = response.data.message;
 
       foodDrives.forEach((record) => {
         foodDrivesAcc = [
           ...foodDrivesAcc,
-          createDonorData(
-            record.id,
+          createDriveData(
+            record.userId,
             record.email,
-            record['first name'],
+            record.name,
             record.address,
-            record['postal code'],
-            record['pickup notes'],
+            record.notes,
+            record.foodDrive,
+            record.team,
+            record.neighbourhood
           ),
         ];
       });

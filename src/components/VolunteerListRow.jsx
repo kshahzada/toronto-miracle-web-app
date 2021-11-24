@@ -12,30 +12,30 @@ import { updateVolunteer } from '../api/apiMethods';
 function VolunteerListRow({ row }) {
   const { user } = useContext(UserContext);
 
-  const [notes, setNotes] = React.useState(row.captainsNotes);
+  const [notes, setNotes] = React.useState(row.notes);
   const [notesEdited, setNotesEdited] = React.useState(false);
   const [notesSaveError, setNotesSaveError] = React.useState('');
 
   const handleChange = (event) => {
     setNotes(event.target.value);
-    setNotesEdited(event.target.value !== row.captainsNotes);
-    setNotesSaveError(false);
+    setNotesEdited(event.target.value !== row.notes);
+    setNotesSaveError('');
   };
 
   const handleNotesSave = async () => {
     const updatedVolunteer = await updateVolunteer(
-      user.neighbourhoods[0],
-      row.id,
+      user.team,
+      row.userId,
       {
         fields: {
-          captainsNotes: notes,
+          notes: notes,
         },
       },
       setNotesSaveError,
     );
 
-    if (updatedVolunteer && 'captainsNotes' in updatedVolunteer) {
-      setNotes(updatedVolunteer.captainsNotes);
+    if (updatedVolunteer) {
+      setNotes(updatedVolunteer.notes);
       setNotesEdited(false);
     }
   };
@@ -57,7 +57,7 @@ function VolunteerListRow({ row }) {
         {row.email}
       </TableCell>
       <TableCell sx={{ color: 'text.secondary' }}>
-        {row.phoneNumber}
+        {row.number}
       </TableCell>
       <TableCell>
         <Checkbox
@@ -97,6 +97,7 @@ function VolunteerListRow({ row }) {
             value={notes}
             onChange={handleChange}
             variant="filled"
+            color="info"
             sx={{
               '.MuiInputBase-input': {
                 color: '#000000',
