@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 function CardNumber({ metricNumber, metricDescription, isText }) {
   return (
     <Card
-      sx={{ bgcolor: 'secondary.main', color: 'text.primary' }}
+      sx={{ bgcolor: 'secondary.main', color: 'text.primary', minHeight: '100%'}}
     >
       <CardContent sx={{ marginBottom: '-1em' }}>
         <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>
