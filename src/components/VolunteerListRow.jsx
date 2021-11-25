@@ -59,6 +59,9 @@ function VolunteerListRow({ row }) {
       <TableCell sx={{ color: 'text.secondary' }}>
         {row.number}
       </TableCell>
+      <TableCell sx={{ color: 'text.secondary' }}>
+        {row.neighbourhood}
+      </TableCell>
       <TableCell>
         <Checkbox
           sx={{

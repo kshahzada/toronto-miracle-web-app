@@ -97,7 +97,9 @@ function Dashboard() {
             <TabPanel value="3">
               <DriveList driveRows={foodDriveListRows} />
             </TabPanel>
+            <TabPanel value="4">
               <NeighbourhoodsStatsList neighbourhoodsStatsRows={neighbourhoodStats} />
+            </TabPanel>
           </TabContext>
         </Grid>
       </Grid>
