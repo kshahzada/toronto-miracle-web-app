@@ -11,7 +11,9 @@ import Header from './Header';
 import VolunteerList from './VolunteerList';
 import DonorList from './DonorList';
 import DriveList from './DriveList';
-import { getVolunteers, getDonors, getFoodDrives, getStats } from '../api/apiMethods';
+import {
+  getVolunteers, getDonors, getFoodDrives, getStats,
+} from '../api/apiMethods';
 import { UserContext } from '../contexts/UserContext';
 import NeighbourhoodsStatsList from './NeighourhoodsStatsList';
 
@@ -23,7 +25,7 @@ function Dashboard() {
   const [foodDriveListRows, setFoodDriveListRows] = useState([]);
   const [neighbourhoodStats, setNeighbourhoodStats] = useState([]);
 
-  const [selectedTab, setSelectedTab] = React.useState('1');
+  const [selectedTab, setSelectedTab] = React.useState('4');
 
   const handleTabSelectionChange = (event, newValue) => {
     setSelectedTab(newValue);

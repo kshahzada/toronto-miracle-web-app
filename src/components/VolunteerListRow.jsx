@@ -28,7 +28,7 @@ function VolunteerListRow({ row }) {
       row.userId,
       {
         fields: {
-          notes: notes,
+          notes,
         },
       },
       setNotesSaveError,
