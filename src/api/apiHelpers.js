@@ -59,3 +59,23 @@ export function createDriveData(
     neighbourhood
   };
 }
+
+export function createNeighbourhoodData(
+  neighbourhoodId,
+  name,
+  captains,
+  numTeams,
+  numVols,
+  numDonations,
+  hub,
+) {
+  return {
+    neighbourhoodId,
+    name,
+    captains,
+    numTeams,
+    numVols,
+    numDonations,
+    hub,
+  };
+}

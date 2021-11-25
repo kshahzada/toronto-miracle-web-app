@@ -1,5 +1,5 @@
 import api from './apiBase';
-import { createVolData, createDonorData,  createDriveData} from './apiHelpers';
+import { createVolData, createDonorData,  createDriveData, createNeighbourhoodData } from './apiHelpers';
 
 export async function getLoggedIn() {
   return api.get('/v1/auth/me')
@@ -115,6 +115,33 @@ export async function getFoodDrives(team) {
       });
 
       return foodDrivesAcc;
+    })
+    .catch(() => []);
+}
+
+export async function getStats(team) {
+  let neighbourhoodsAcc = [];
+
+  return api(`/v1/teams/${team}/hubs/`)
+    .then((response) => {
+      const neighbourhoods = response.data.message;
+
+      neighbourhoods.forEach((record) => {
+        neighbourhoodsAcc = [
+          ...neighbourhoodsAcc,
+          createNeighbourhoodData(
+            record.neighbourhoodId,
+            record.name,
+            record.captains,
+            record.numTeams,
+            record.numVols,
+            record.numDonations,
+            record.hub,
+          ),
+        ];
+      });
+
+      return neighbourhoodsAcc;
     })
     .catch(() => []);
 }
