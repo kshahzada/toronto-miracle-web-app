@@ -11,8 +11,11 @@ import Header from './Header';
 import VolunteerList from './VolunteerList';
 import DonorList from './DonorList';
 import DriveList from './DriveList';
-import { getVolunteers, getDonors, getFoodDrives } from '../api/apiMethods';
+import {
+  getVolunteers, getDonors, getFoodDrives, getStats,
+} from '../api/apiMethods';
 import { UserContext } from '../contexts/UserContext';
+import NeighbourhoodsStatsList from './NeighourhoodsStatsList';
 
 function Dashboard() {
   const { user } = useContext(UserContext);
@@ -20,8 +23,9 @@ function Dashboard() {
   const [volunteerListRows, setVolunteerListRows] = useState([]);
   const [donorListRows, setDonorListRows] = useState([]);
   const [foodDriveListRows, setFoodDriveListRows] = useState([]);
+  const [neighbourhoodStats, setNeighbourhoodStats] = useState([]);
 
-  const [selectedTab, setSelectedTab] = React.useState('1');
+  const [selectedTab, setSelectedTab] = React.useState('4');
 
   const handleTabSelectionChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -38,6 +42,9 @@ function Dashboard() {
 
         const foodDrives = await getFoodDrives(user.team);
         setFoodDriveListRows(foodDrives);
+
+        const stats = await getStats(user.team);
+        setNeighbourhoodStats(stats);
       }
     };
     getData();
@@ -80,6 +87,7 @@ function Dashboard() {
                 <Tab label="Volunteer List" value="1" />
                 <Tab label="Donor List" value="2" />
                 <Tab label="Food Drive List" value="3" />
+                <Tab label="Neigbourhoods" value="4" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -90,6 +98,9 @@ function Dashboard() {
             </TabPanel>
             <TabPanel value="3">
               <DriveList driveRows={foodDriveListRows} />
+            </TabPanel>
+            <TabPanel value="4">
+              <NeighbourhoodsStatsList neighbourhoodsStatsRows={neighbourhoodStats} />
             </TabPanel>
           </TabContext>
         </Grid>

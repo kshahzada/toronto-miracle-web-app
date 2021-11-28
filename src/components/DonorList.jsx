@@ -45,6 +45,7 @@ function DonorList({ donorRows }) {
                 <TableHead>
                   <TableRow>
                     <HeaderTableCell>Address</HeaderTableCell>
+                    <HeaderTableCell>Neighbourhood</HeaderTableCell>
                     <HeaderTableCell align="right">Pick Up Notes</HeaderTableCell>
                   </TableRow>
                 </TableHead>
@@ -64,6 +65,12 @@ function DonorList({ donorRows }) {
                           align="left"
                         >
                           {row.address}
+                        </TableCell>
+                        <TableCell
+                          sx={{ color: 'text.secondary' }}
+                          align="right"
+                        >
+                          {row.neighbourhood}
                         </TableCell>
                         <TableCell
                           sx={{ color: 'text.secondary' }}

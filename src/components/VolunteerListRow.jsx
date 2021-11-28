@@ -28,7 +28,7 @@ function VolunteerListRow({ row }) {
       row.userId,
       {
         fields: {
-          notes: notes,
+          notes,
         },
       },
       setNotesSaveError,
@@ -58,6 +58,9 @@ function VolunteerListRow({ row }) {
       </TableCell>
       <TableCell sx={{ color: 'text.secondary' }}>
         {row.number}
+      </TableCell>
+      <TableCell sx={{ color: 'text.secondary' }}>
+        {row.neighbourhood}
       </TableCell>
       <TableCell>
         <Checkbox

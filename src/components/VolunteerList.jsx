@@ -48,6 +48,7 @@ function VolunteerList({ volunteerRows }) {
                     <HeaderTableCell>Name</HeaderTableCell>
                     <HeaderTableCell>Email</HeaderTableCell>
                     <HeaderTableCell>Phone Number</HeaderTableCell>
+                    <HeaderTableCell>Neighbourhood</HeaderTableCell>
                     <HeaderTableCell>Vehicle Access</HeaderTableCell>
                     <HeaderTableCell>Waiver</HeaderTableCell>
                     <HeaderTableCell>Notes</HeaderTableCell>
